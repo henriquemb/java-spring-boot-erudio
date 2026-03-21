@@ -1,6 +1,8 @@
 package com.github.henriquemb.controller;
 
 import com.github.henriquemb.exception.UnsupportedMathOperationException;
+import com.github.henriquemb.math.SimpleMath;
+import com.github.henriquemb.request.converters.NumberConverter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,14 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/math")
 public class MathController {
+    private final SimpleMath math = new SimpleMath();
 
     @RequestMapping("/sum/{numberOne}/{numberTwo}")
     public Double sum(
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo
     ) {
-        validateNumbers(numberOne, numberTwo);
-        return convertToDouble(numberOne) + convertToDouble(numberTwo);
+        NumberConverter.validateNumber(numberOne, numberTwo);
+
+        return math.sum(
+                NumberConverter.convertToDouble(numberOne),
+                NumberConverter.convertToDouble(numberTwo)
+        );
     }
 
     @RequestMapping("/subtraction/{numberOne}/{numberTwo}")
@@ -23,8 +30,12 @@ public class MathController {
             @PathVariable String numberOne,
             @PathVariable String numberTwo
     ) {
-        validateNumbers(numberOne, numberTwo);
-        return convertToDouble(numberOne) - convertToDouble(numberTwo);
+        NumberConverter.validateNumber(numberOne, numberTwo);
+
+        return math.subtraction(
+                NumberConverter.convertToDouble(numberOne),
+                NumberConverter.convertToDouble(numberTwo)
+        );
     }
 
     @RequestMapping("/multiplication/{numberOne}/{numberTwo}")
@@ -32,8 +43,12 @@ public class MathController {
             @PathVariable String numberOne,
             @PathVariable String numberTwo
     ) {
-        validateNumbers(numberOne, numberTwo);
-        return convertToDouble(numberOne) * convertToDouble(numberTwo);
+        NumberConverter.validateNumber(numberOne, numberTwo);
+
+        return math.multiplication(
+                NumberConverter.convertToDouble(numberOne),
+                NumberConverter.convertToDouble(numberTwo)
+        );
     }
 
     @RequestMapping("/division/{numberOne}/{numberTwo}")
@@ -41,14 +56,17 @@ public class MathController {
             @PathVariable String numberOne,
             @PathVariable String numberTwo
     ) {
-        validateNumbers(numberOne, numberTwo);
+        NumberConverter.validateNumber(numberOne, numberTwo);
 
-        double divisor = convertToDouble(numberTwo);
+        double divisor = NumberConverter.convertToDouble(numberTwo);
 
         if(divisor == 0)
             throw new UnsupportedMathOperationException("Please specify a valid divider!");
 
-        return convertToDouble(numberOne) / divisor;
+        return math.division(
+                NumberConverter.convertToDouble(numberOne),
+                NumberConverter.convertToDouble(numberTwo)
+        );
     }
 
     @RequestMapping("/mean/{numberOne}/{numberTwo}")
@@ -56,46 +74,22 @@ public class MathController {
             @PathVariable String numberOne,
             @PathVariable String numberTwo
     ) {
-        validateNumbers(numberOne, numberTwo);
-        return (convertToDouble(numberOne) + convertToDouble(numberTwo)) / 2;
+        NumberConverter.validateNumber(numberOne, numberTwo);
+
+        return math.mean(
+                NumberConverter.convertToDouble(numberOne),
+                NumberConverter.convertToDouble(numberTwo)
+        );
     }
 
     @RequestMapping("/squareroot/{number}")
     public Double squareRoot(
             @PathVariable String number
     ) {
-        validateNumber(number);
+        NumberConverter.validateNumber(number);
 
-        return Math.sqrt(convertToDouble(number));
-    }
-
-    private Double convertToDouble(String number) {
-        if(number == null || number.isEmpty())
-            throw new UnsupportedMathOperationException("Please set a numeric value!");
-
-        number = parseNumber(number);
-
-        return Double.parseDouble(number);
-    }
-
-    private boolean isNumeric(String strNumber) {
-        String number = parseNumber(strNumber);
-        String regex = "^[-+]?[0-9]*\\.?[0-9]*$";
-
-        return number.matches(regex);
-    }
-
-    private String parseNumber(String number) {
-        return number.trim().replace(",", ".");
-    }
-
-    private void validateNumber(String number) {
-        if(!isNumeric(number))
-            throw new UnsupportedMathOperationException("Please set a numeric value!");
-    }
-
-    private void validateNumbers(String numberOne, String numberTwo) {
-        validateNumber(numberOne);
-        validateNumber(numberTwo);
+        return math.squareRoot(
+                NumberConverter.convertToDouble(number)
+        );
     }
 }

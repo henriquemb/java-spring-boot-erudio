@@ -1,5 +1,7 @@
 package com.github.henriquemb.model;
 
+import org.apache.tomcat.util.json.JSONParser;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
@@ -66,5 +68,16 @@ public class Person implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

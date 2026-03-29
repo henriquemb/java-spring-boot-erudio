@@ -1,4 +1,4 @@
-package com.github.henriquemb.service;
+package com.github.henriquemb.services;
 
 import com.github.henriquemb.model.Person;
 import org.springframework.stereotype.Service;

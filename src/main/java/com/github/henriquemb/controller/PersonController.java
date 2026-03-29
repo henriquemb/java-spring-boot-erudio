@@ -1,7 +1,7 @@
 package com.github.henriquemb.controller;
 
 import com.github.henriquemb.model.Person;
-import com.github.henriquemb.service.PersonService;
+import com.github.henriquemb.services.PersonService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

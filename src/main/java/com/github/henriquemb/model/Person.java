@@ -1,7 +1,5 @@
 package com.github.henriquemb.model;
 
-import org.apache.tomcat.util.json.JSONParser;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;

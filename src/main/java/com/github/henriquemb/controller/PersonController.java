@@ -3,6 +3,7 @@ package com.github.henriquemb.controller;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.services.PersonService;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,25 +17,22 @@ public class PersonController {
         this.service = service;
     }
 
-    @RequestMapping(
-            method = RequestMethod.GET,
+    @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Person> findAll() {
         return service.findAll();
     }
 
-    @RequestMapping(
+    @GetMapping(
             value = "/{id}",
-            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Person findById(@PathVariable long id) {
         return service.findById(id);
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
+    @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -42,9 +40,8 @@ public class PersonController {
         return service.create(person);
     }
 
-    @RequestMapping(
+    @PutMapping(
             value = "/{id}",
-            method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -52,11 +49,12 @@ public class PersonController {
         return service.update(id, person);
     }
 
-    @RequestMapping(
-            value = "/{id}",
-            method = RequestMethod.DELETE
+    @DeleteMapping(
+            value = "/{id}"
     )
-    public void delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         service.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

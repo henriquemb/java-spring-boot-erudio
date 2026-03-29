@@ -49,7 +49,7 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Person update(@PathVariable long id, @RequestBody Person person) {
-        return service.update(person);
+        return service.update(id, person);
     }
 
     @RequestMapping(

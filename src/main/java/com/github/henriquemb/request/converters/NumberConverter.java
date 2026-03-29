@@ -1,6 +1,6 @@
 package com.github.henriquemb.request.converters;
 
-import com.github.henriquemb.exception.UnsupportedMathOperationException;
+import com.github.henriquemb.exception.ResourceNotFoundException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 public class NumberConverter {
     public static Double convertToDouble(String number) {
         if(number == null || number.isEmpty())
-            throw new UnsupportedMathOperationException("Please set a numeric value!");
+            throw new ResourceNotFoundException("Please set a numeric value!");
 
         number = parseNumber(number);
 
@@ -26,7 +26,7 @@ public class NumberConverter {
         List<String> nonNumbers = Arrays.stream(numbers).filter(number -> !isNumeric(number)).toList();
 
         if(!nonNumbers.isEmpty())
-            throw new UnsupportedMathOperationException("Please set a numeric value!");
+            throw new ResourceNotFoundException("Please set a numeric value!");
     }
 
     private static String parseNumber(String number) {

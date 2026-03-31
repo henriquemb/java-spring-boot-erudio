@@ -3,16 +3,15 @@ package com.github.henriquemb.services;
 import com.github.henriquemb.exception.ResourceNotFoundException;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
 
 @Service
 public class PersonService {
-    private final AtomicLong counter = new AtomicLong();
-    private final Logger logger = Logger.getLogger(PersonService.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 
     private final PersonRepository personRepository;
 

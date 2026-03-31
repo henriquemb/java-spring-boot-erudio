@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>25</java.version>
+		<dozer.version>7.0.0</dozer.version>
 	</properties>
 
 	<dependencies>
@@ -32,6 +33,12 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
+			<version>${dozer.version}</version>
 		</dependency>
 
 		<dependency>

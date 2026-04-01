@@ -1,5 +1,6 @@
 package com.github.henriquemb.services;
 
+import com.github.henriquemb.data.dto.PersonDTO;
 import com.github.henriquemb.exception.ResourceNotFoundException;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
@@ -8,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.github.henriquemb.mapper.ObjectMapper.parseListObjects;
+import static com.github.henriquemb.mapper.ObjectMapper.parseObject;
 
 @Service
 public class PersonService {
@@ -19,43 +23,48 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
         logger.info("Finding all persons.");
 
-        return personRepository.findAll();
+        List<Person> persons = personRepository.findAll();
+        return parseListObjects(persons, PersonDTO.class);
     }
 
-    public Person findById(long id) {
-        logger.info(String.format("Finding person with id %d.", id));
+    public PersonDTO findById(long id) {
+        logger.info("Finding person with id {}.", id);
 
-        return personRepository.findById(id).orElseThrow(
+        Person person = personRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Person with id " + id + " not found.")
         );
+        return parseObject(person, PersonDTO.class);
     }
 
-    public Person create(Person person) {
-        logger.info(String.format("Creating person %s.", person.toString()));
+    public PersonDTO create(PersonDTO personDTO) {
+        logger.info("Creating person {}.", personDTO.toString());
 
-        return personRepository.save(person);
+        Person person = parseObject(personDTO, Person.class);
+        Person savedPerson = personRepository.save(person);
+        return parseObject(savedPerson, PersonDTO.class);
     }
 
-    public Person update(long id, Person person) {
-        logger.info(String.format("Updating person id %d to %s.", id, person.toString()));
+    public PersonDTO update(long id, PersonDTO personDTO) {
+        logger.info("Updating person id {} to {}.", id, personDTO.toString());
 
         Person entity = personRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Person with id " + person.getId() + " not found.")
+                () -> new ResourceNotFoundException("Person with id " + personDTO.getId() + " not found.")
         );
 
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
-        entity.setAddress(person.getAddress()   );
-        entity.setGender(person.getGender());
+        entity.setFirstName(personDTO.getFirstName());
+        entity.setLastName(personDTO.getLastName());
+        entity.setAddress(personDTO.getAddress()   );
+        entity.setGender(personDTO.getGender());
 
-        return personRepository.save(entity);
+        Person savedPerson = personRepository.save(entity);
+        return parseObject(savedPerson, PersonDTO.class);
     }
 
     public void delete(long id) {
-        logger.info(String.format("Deleting person %d.", id));
+        logger.info("Deleting person {}.", id);
 
         if (!personRepository.existsById(id)) {
             throw new ResourceNotFoundException("Person with id " + id + " not found.");

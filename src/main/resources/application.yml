@@ -15,4 +15,5 @@ spring:
 logging:
   level:
     root: info
+    sql: info
     com.github.henriquemb: info

@@ -1,6 +1,6 @@
-package com.github.henriquemb.services;
+package com.github.henriquemb.services.v1;
 
-import com.github.henriquemb.data.dto.PersonDTO;
+import com.github.henriquemb.data.dto.v1.PersonDTO;
 import com.github.henriquemb.exception.ResourceNotFoundException;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
@@ -13,7 +13,7 @@ import java.util.List;
 import static com.github.henriquemb.mapper.ObjectMapper.parseListObjects;
 import static com.github.henriquemb.mapper.ObjectMapper.parseObject;
 
-@Service
+@Service("PersonServiceV1")
 public class PersonService {
     private final Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 

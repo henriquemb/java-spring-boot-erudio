@@ -5,7 +5,7 @@ import static com.github.henriquemb.mapper.ObjectMapper.parseObject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
-import com.github.henriquemb.data.dto.PersonDTO;
+import com.github.henriquemb.data.dto.v1.PersonDTO;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.unitetests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;

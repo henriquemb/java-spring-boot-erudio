@@ -1,4 +1,4 @@
-package com.github.henriquemb.data.dto;
+package com.github.henriquemb.data.dto.v1;
 
 import java.io.Serial;
 import java.io.Serializable;

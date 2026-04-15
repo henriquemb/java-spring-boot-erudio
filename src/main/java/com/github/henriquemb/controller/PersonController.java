@@ -1,15 +1,15 @@
-package com.github.henriquemb.controller.v1;
+package com.github.henriquemb.controller;
 
-import com.github.henriquemb.data.dto.v1.PersonDTO;
-import com.github.henriquemb.services.v1.PersonService;
+import com.github.henriquemb.data.dto.PersonDTO;
+import com.github.henriquemb.services.PersonService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("PersonControllerV1")
-@RequestMapping("/v1/person")
+@RestController
+@RequestMapping("/person")
 public class PersonController {
     private final PersonService service;
 

@@ -1,6 +1,6 @@
 package com.github.henriquemb.unitetests.mapper.mocks;
 
-import com.github.henriquemb.data.dto.v1.PersonDTO;
+import com.github.henriquemb.data.dto.PersonDTO;
 import com.github.henriquemb.model.Person;
 
 import java.util.ArrayList;

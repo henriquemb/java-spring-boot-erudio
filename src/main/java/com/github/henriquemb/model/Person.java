@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -22,12 +21,6 @@ public class Person implements Serializable {
 
     @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
-
-    @Column(name = "birthdate")
-    private Date birthDate;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
 
     @Column(nullable = false, length = 100)
     private String address;
@@ -62,22 +55,6 @@ public class Person implements Serializable {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -97,12 +74,12 @@ public class Person implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Person person)) return false;
-        return Objects.equals(getId(), person.getId()) && Objects.equals(getFirstName(), person.getFirstName()) && Objects.equals(getLastName(), person.getLastName()) && Objects.equals(getBirthDate(), person.getBirthDate()) && Objects.equals(getPhoneNumber(), person.getPhoneNumber()) && Objects.equals(getAddress(), person.getAddress()) && Objects.equals(getGender(), person.getGender());
+        return Objects.equals(getId(), person.getId()) && Objects.equals(getFirstName(), person.getFirstName()) && Objects.equals(getLastName(), person.getLastName()) && Objects.equals(getAddress(), person.getAddress()) && Objects.equals(getGender(), person.getGender());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getBirthDate(), getPhoneNumber(), getAddress(), getGender());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
     }
 
     @Override
@@ -111,8 +88,6 @@ public class Person implements Serializable {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", gender='" + gender + '\'' +
                 '}';

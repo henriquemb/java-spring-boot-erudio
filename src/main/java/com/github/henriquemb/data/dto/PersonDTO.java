@@ -1,14 +1,18 @@
 package com.github.henriquemb.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.henriquemb.serializer.GenderSerializer;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
-@JsonPropertyOrder({"id", "first_name", "last_name", "address", "gender"})
+@JsonPropertyOrder({"id", "first_name", "last_name", "birthdate", "address", "gender"})
 public class PersonDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -21,9 +25,17 @@ public class PersonDTO implements Serializable {
     @JsonProperty("last_name")
     private String lastName;
 
+    @JsonProperty("birthdate")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthDate;
+
     private String address;
 
-    @JsonIgnore
+    /*
+     * Devido a um conflito de versões e uso do Dozer o JsonSerializer não funciona.
+     */
+    //@JsonIgnore
+    //@JsonSerialize(using = GenderSerializer.class)
     private String gender;
 
     public PersonDTO() {
@@ -53,6 +65,14 @@ public class PersonDTO implements Serializable {
         this.lastName = lastName;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -71,23 +91,12 @@ public class PersonDTO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof com.github.henriquemb.model.Person person)) return false;
-        return Objects.equals(getId(), person.getId()) && Objects.equals(getFirstName(), person.getFirstName()) && Objects.equals(getLastName(), person.getLastName()) && Objects.equals(getAddress(), person.getAddress()) && Objects.equals(getGender(), person.getGender());
+        if (!(o instanceof PersonDTO personDTO)) return false;
+        return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getBirthDate(), personDTO.getBirthDate()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
-    }
-
-    @Override
-    public String toString() {
-        return "PersonDTO{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", gender='" + gender + '\'' +
-                '}';
+        return Objects.hash(getId(), getFirstName(), getLastName(), getBirthDate(), getAddress(), getGender());
     }
 }

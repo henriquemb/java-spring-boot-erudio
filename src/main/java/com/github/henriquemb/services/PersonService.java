@@ -1,11 +1,13 @@
 package com.github.henriquemb.services;
 
+import com.github.henriquemb.controller.PersonController;
 import com.github.henriquemb.data.dto.PersonDTO;
 import com.github.henriquemb.exception.ResourceNotFoundException;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +38,15 @@ public class PersonService {
         Person person = personRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Person with id " + id + " not found.")
         );
-        return parseObject(person, PersonDTO.class);
+
+        PersonDTO personDTO = parseObject(person, PersonDTO.class);
+        personDTO.add(
+            WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PersonController.class).findById(id)
+            ).withSelfRel().withType("GET")
+        );
+
+        return personDTO;
     }
 
     public PersonDTO create(PersonDTO personDTO) {

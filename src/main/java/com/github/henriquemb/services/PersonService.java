@@ -29,7 +29,10 @@ public class PersonService {
         logger.info("Finding all persons.");
 
         List<Person> persons = personRepository.findAll();
-        return parseListObjects(persons, PersonDTO.class);
+        return parseListObjects(persons, PersonDTO.class)
+                .stream()
+                .peek(personDTO -> addHateoasLinks(personDTO, personDTO.getId()))
+                .toList();
     }
 
     public PersonDTO findById(long id) {
@@ -41,7 +44,6 @@ public class PersonService {
 
         PersonDTO personDTO = parseObject(person, PersonDTO.class);
         addHateoasLinks(personDTO, id);
-
         return personDTO;
     }
 
@@ -50,7 +52,9 @@ public class PersonService {
 
         Person person = parseObject(personDTO, Person.class);
         Person savedPerson = personRepository.save(person);
-        return parseObject(savedPerson, PersonDTO.class);
+        PersonDTO savedPersonDTO = parseObject(savedPerson, PersonDTO.class);
+        addHateoasLinks(savedPersonDTO, savedPersonDTO.getId());
+        return savedPersonDTO;
     }
 
     public PersonDTO update(long id, PersonDTO personDTO) {
@@ -66,7 +70,9 @@ public class PersonService {
         entity.setGender(personDTO.getGender());
 
         Person savedPerson = personRepository.save(entity);
-        return parseObject(savedPerson, PersonDTO.class);
+        PersonDTO savedPersonDTO = parseObject(savedPerson, PersonDTO.class);
+        addHateoasLinks(savedPersonDTO, id);
+        return savedPersonDTO;
     }
 
     public void delete(long id) {
@@ -79,7 +85,7 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
-    private static void addHateoasLinks(PersonDTO personDTO, long id) {
+    private void addHateoasLinks(PersonDTO personDTO, long id) {
         personDTO.add(
             WebMvcLinkBuilder.linkTo(
                     WebMvcLinkBuilder.methodOn(PersonController.class).findById(id)

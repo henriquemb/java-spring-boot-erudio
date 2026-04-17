@@ -40,11 +40,7 @@ public class PersonService {
         );
 
         PersonDTO personDTO = parseObject(person, PersonDTO.class);
-        personDTO.add(
-            WebMvcLinkBuilder.linkTo(
-                    WebMvcLinkBuilder.methodOn(PersonController.class).findById(id)
-            ).withSelfRel().withType("GET")
-        );
+        addHateoasLinks(personDTO, id);
 
         return personDTO;
     }
@@ -81,5 +77,37 @@ public class PersonService {
         }
 
         personRepository.deleteById(id);
+    }
+
+    private static void addHateoasLinks(PersonDTO personDTO, long id) {
+        personDTO.add(
+            WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PersonController.class).findById(id)
+            ).withSelfRel().withType("GET")
+        );
+
+        personDTO.add(
+            WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PersonController.class).findAll()
+            ).withRel("findAll").withType("GET")
+        );
+
+        personDTO.add(
+            WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PersonController.class).create(personDTO)
+            ).withRel("create").withType("POST")
+        );
+
+        personDTO.add(
+            WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PersonController.class).update(id, personDTO)
+            ).withRel("update").withType("PUT")
+        );
+
+        personDTO.add(
+            WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PersonController.class).delete(id)
+            ).withRel("delete").withType("DELETE")
+        );
     }
 }

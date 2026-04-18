@@ -1,6 +1,5 @@
 package com.github.henriquemb.controller;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.henriquemb.data.dto.PersonDTO;
 import com.github.henriquemb.services.PersonService;
 import org.springframework.http.MediaType;

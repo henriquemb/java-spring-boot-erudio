@@ -1,6 +1,7 @@
-package com.github.henriquemb.handler;
+package com.github.henriquemb.exception.handler;
 
 import com.github.henriquemb.exception.ExceptionResponse;
+import com.github.henriquemb.exception.RequiredObjectIsNullException;
 import com.github.henriquemb.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,16 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         );
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RequiredObjectIsNullException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception exception, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                exception.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

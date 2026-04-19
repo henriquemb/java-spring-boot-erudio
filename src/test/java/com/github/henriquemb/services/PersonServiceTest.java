@@ -1,6 +1,7 @@
 package com.github.henriquemb.services;
 
 import com.github.henriquemb.data.dto.PersonDTO;
+import com.github.henriquemb.exception.RequiredObjectIsNullException;
 import com.github.henriquemb.mapper.ObjectMapper;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
@@ -15,8 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -160,6 +160,16 @@ class PersonServiceTest {
     }
 
     @Test
+    void createWithNull() {
+        Exception e = assertThrows(RequiredObjectIsNullException.class, () -> personService.create(null));
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = e.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void update() {
         Person person = mockPerson.mockEntity(1);
         Mockito.when(personRepository.findById(1L)).thenReturn(Optional.of(person));
@@ -221,6 +231,16 @@ class PersonServiceTest {
                                 && link.getType().equals("DELETE")
                 )
         );
+    }
+
+    @Test
+    void updateWithNull() {
+        Exception e = assertThrows(RequiredObjectIsNullException.class, () -> personService.update(0, null));
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = e.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test

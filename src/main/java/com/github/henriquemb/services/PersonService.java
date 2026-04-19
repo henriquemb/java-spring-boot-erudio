@@ -2,6 +2,7 @@ package com.github.henriquemb.services;
 
 import com.github.henriquemb.controller.PersonController;
 import com.github.henriquemb.data.dto.PersonDTO;
+import com.github.henriquemb.exception.RequiredObjectIsNullException;
 import com.github.henriquemb.exception.ResourceNotFoundException;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
@@ -48,7 +49,10 @@ public class PersonService {
     }
 
     public PersonDTO create(PersonDTO personDTO) {
-        logger.info("Creating person {}.", personDTO.toString());
+        if (personDTO == null)
+            throw new RequiredObjectIsNullException();
+
+        logger.info("Creating person {}.", personDTO);
 
         Person person = parseObject(personDTO, Person.class);
         Person savedPerson = personRepository.save(person);
@@ -58,7 +62,10 @@ public class PersonService {
     }
 
     public PersonDTO update(long id, PersonDTO personDTO) {
-        logger.info("Updating person id {} to {}.", id, personDTO.toString());
+        if (id <= 0 || personDTO == null)
+            throw new RequiredObjectIsNullException();
+
+        logger.info("Updating person id {} to {}.", id, personDTO);
 
         Person entity = personRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Person with id " + personDTO.getId() + " not found.")

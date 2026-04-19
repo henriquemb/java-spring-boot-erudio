@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -256,5 +257,70 @@ class PersonServiceTest {
 
     @Test
     void findAll() {
+        List<Person> people = mockPerson.mockEntityList();
+        when(personRepository.findAll()).thenReturn(people);
+        List<PersonDTO> personDTOS = personService.findAll();
+
+        assertNotNull(personDTOS);
+        assertEquals(14, personDTOS.size());
+
+        PersonDTO person = personDTOS.getFirst();
+
+        PersonDTO mockPersonDTO = mockPerson.mockDTO(1);
+        assertNotNull(person);
+        assertNotNull(person.getId());
+        assertNotNull(mockPersonDTO.getFirstName(), person.getFirstName());
+        assertNotNull(mockPersonDTO.getLastName(), person.getLastName());
+        assertNotNull(mockPersonDTO.getAddress(), person.getAddress());
+        assertNotNull(mockPersonDTO.getGender(), person.getGender());
+        assertNotNull(person.getLinks());
+
+        assertTrue(person.getLinks().stream()
+                .anyMatch(
+                        link -> link.getRel().value().equals("self")
+                                && link.getHref().endsWith("/person/1")
+                                && link.getType() != null
+                                && link.getType().equals("GET")
+                )
+        );
+
+        assertTrue(person.getLinks().stream()
+                .anyMatch(
+                        link -> link.getRel().value().equals("findAll")
+                                && link.getHref().endsWith("/person")
+                                && link.getType() != null
+                                && link.getType().equals("GET")
+                )
+        );
+
+        assertTrue(person.getLinks().stream()
+                .anyMatch(
+                        link -> link.getRel().value().equals("create")
+                                && link.getHref().endsWith("/person")
+                                && link.getType() != null
+                                && link.getType().equals("POST")
+                )
+        );
+
+        assertTrue(person.getLinks().stream()
+                .anyMatch(
+                        link -> link.getRel().value().equals("update")
+                                && link.getHref().endsWith("/person/1")
+                                && link.getType() != null
+                                && link.getType().equals("PUT")
+                )
+        );
+
+        assertTrue(person.getLinks().stream()
+                .anyMatch(
+                        link -> link.getRel().value().equals("delete")
+                                && link.getHref().endsWith("/person/1")
+                                && link.getType() != null
+                                && link.getType().equals("DELETE")
+                )
+        );
+
+        verify(personRepository, times(1)).findAll();
+        verifyNoMoreInteractions(personRepository);
     }
 }

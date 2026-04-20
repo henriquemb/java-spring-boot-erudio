@@ -45,10 +45,10 @@ class PersonServiceTest {
         PersonDTO mockPersonDTO = mockPerson.mockDTO(1);
         assertNotNull(result);
         assertNotNull(result.getId());
-        assertNotNull(mockPersonDTO.getFirstName(), result.getFirstName());
-        assertNotNull(mockPersonDTO.getLastName(), result.getLastName());
-        assertNotNull(mockPersonDTO.getAddress(), result.getAddress());
-        assertNotNull(mockPersonDTO.getGender(), result.getGender());
+        assertEquals(mockPersonDTO.getFirstName(), result.getFirstName());
+        assertEquals(mockPersonDTO.getLastName(), result.getLastName());
+        assertEquals(mockPersonDTO.getAddress(), result.getAddress());
+        assertEquals(mockPersonDTO.getGender(), result.getGender());
         assertNotNull(result.getLinks());
 
         assertTrue(result.getLinks().stream()
@@ -108,10 +108,10 @@ class PersonServiceTest {
         PersonDTO mockPersonDTO = ObjectMapper.parseObject(mockPerson.mockEntity(1),  PersonDTO.class);
         assertNotNull(result);
         assertNotNull(result.getId());
-        assertNotNull(mockPersonDTO.getFirstName(), result.getFirstName());
-        assertNotNull(mockPersonDTO.getLastName(), result.getLastName());
-        assertNotNull(mockPersonDTO.getAddress(), result.getAddress());
-        assertNotNull(mockPersonDTO.getGender(), result.getGender());
+        assertEquals(mockPersonDTO.getFirstName(), result.getFirstName());
+        assertEquals(mockPersonDTO.getLastName(), result.getLastName());
+        assertEquals(mockPersonDTO.getAddress(), result.getAddress());
+        assertEquals(mockPersonDTO.getGender(), result.getGender());
         assertNotNull(result.getLinks());
 
         assertTrue(result.getLinks().stream()
@@ -182,10 +182,10 @@ class PersonServiceTest {
         PersonDTO mockPersonDTO = ObjectMapper.parseObject(mockPerson.mockEntity(1),  PersonDTO.class);
         assertNotNull(result);
         assertNotNull(result.getId());
-        assertNotNull(mockPersonDTO.getFirstName(), result.getFirstName());
-        assertNotNull(mockPersonDTO.getLastName(), result.getLastName());
-        assertNotNull(mockPersonDTO.getAddress(), result.getAddress());
-        assertNotNull(mockPersonDTO.getGender(), result.getGender());
+        assertEquals(mockPersonDTO.getFirstName(), result.getFirstName());
+        assertEquals(mockPersonDTO.getLastName(), result.getLastName());
+        assertEquals(mockPersonDTO.getAddress(), result.getAddress());
+        assertEquals(mockPersonDTO.getGender(), result.getGender());
         assertNotNull(result.getLinks());
 
         assertTrue(result.getLinks().stream()
@@ -269,10 +269,10 @@ class PersonServiceTest {
         PersonDTO mockPersonDTO = mockPerson.mockDTO(1);
         assertNotNull(person);
         assertNotNull(person.getId());
-        assertNotNull(mockPersonDTO.getFirstName(), person.getFirstName());
-        assertNotNull(mockPersonDTO.getLastName(), person.getLastName());
-        assertNotNull(mockPersonDTO.getAddress(), person.getAddress());
-        assertNotNull(mockPersonDTO.getGender(), person.getGender());
+        assertEquals(mockPersonDTO.getFirstName(), person.getFirstName());
+        assertEquals(mockPersonDTO.getLastName(), person.getLastName());
+        assertEquals(mockPersonDTO.getAddress(), person.getAddress());
+        assertEquals(mockPersonDTO.getGender(), person.getGender());
         assertNotNull(person.getLinks());
 
         assertTrue(person.getLinks().stream()

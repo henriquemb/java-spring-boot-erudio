@@ -34,27 +34,27 @@ public class ObjectMapperTests {
         List<PersonDTO> outputList = parseListObjects(inputObject.mockEntityList(), PersonDTO.class);
         PersonDTO outputZero = outputList.getFirst();
 
-        assertEquals(Long.valueOf(0L), outputZero.getId());
-        assertEquals("First Name Test0", outputZero.getFirstName());
-        assertEquals("Last Name Test0", outputZero.getLastName());
-        assertEquals("Address Test0", outputZero.getAddress());
-        assertEquals("Male", outputZero.getGender());
+        assertEquals(1L, outputZero.getId());
+        assertEquals("First Name Test1", outputZero.getFirstName());
+        assertEquals("Last Name Test1", outputZero.getLastName());
+        assertEquals("Address Test1", outputZero.getAddress());
+        assertEquals("Female", outputZero.getGender());
 
         PersonDTO outputSeven = outputList.get(7);
 
-        assertEquals(Long.valueOf(7L), outputSeven.getId());
-        assertEquals("First Name Test7", outputSeven.getFirstName());
-        assertEquals("Last Name Test7", outputSeven.getLastName());
-        assertEquals("Address Test7", outputSeven.getAddress());
-        assertEquals("Female", outputSeven.getGender());
+        assertEquals(8L, outputSeven.getId());
+        assertEquals("First Name Test8", outputSeven.getFirstName());
+        assertEquals("Last Name Test8", outputSeven.getLastName());
+        assertEquals("Address Test8", outputSeven.getAddress());
+        assertEquals("Male", outputSeven.getGender());
 
         PersonDTO outputTwelve = outputList.get(12);
 
-        assertEquals(Long.valueOf(12L), outputTwelve.getId());
-        assertEquals("First Name Test12", outputTwelve.getFirstName());
-        assertEquals("Last Name Test12", outputTwelve.getLastName());
-        assertEquals("Address Test12", outputTwelve.getAddress());
-        assertEquals("Male", outputTwelve.getGender());
+        assertEquals(13L, outputTwelve.getId());
+        assertEquals("First Name Test13", outputTwelve.getFirstName());
+        assertEquals("Last Name Test13", outputTwelve.getLastName());
+        assertEquals("Address Test13", outputTwelve.getAddress());
+        assertEquals("Female", outputTwelve.getGender());
     }
 
     @Test

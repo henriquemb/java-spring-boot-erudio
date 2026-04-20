@@ -17,3 +17,7 @@ logging:
     root: info
     sql: info
     com.github.henriquemb: info
+springdoc:
+  paths-to-match: /api/v1/**
+  swagger-ui:
+    use-root-path: true

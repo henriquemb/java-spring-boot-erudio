@@ -1,36 +1,19 @@
-package com.github.henriquemb.controller;
+package com.github.henriquemb.controllers.docs;
 
 import com.github.henriquemb.data.dto.PersonDTO;
-import com.github.henriquemb.services.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/v1/person")
-@Tag(name = "People", description = "Endpoints for Managing People")
-public class PersonController {
-	private final PersonService service;
-
-	public PersonController(PersonService service) {
-		this.service = service;
-	}
-
-	@GetMapping(
-			produces = {
-					MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_YAML_VALUE
-			}
-	)
+public interface PersonControllerDocs {
 	@Operation(
 			summary = "Find all people",
 			description = "Find all people",
@@ -55,18 +38,8 @@ public class PersonController {
 					@ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
 			}
 	)
-	public List<PersonDTO> findAll() {
-		return service.findAll();
-	}
+	List<PersonDTO> findAll();
 
-	@GetMapping(
-			value = "/{id}",
-			produces = {
-					MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_YAML_VALUE
-			}
-	)
 	@Operation(
 			summary = "Find a person",
 			description = "Find a specific person by your id",
@@ -86,22 +59,8 @@ public class PersonController {
 					@ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
 			}
 	)
-	public PersonDTO findById(@PathVariable long id) {
-		return service.findById(id);
-	}
+	PersonDTO findById(@PathVariable long id);
 
-	@PostMapping(
-			consumes = {
-					MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_YAML_VALUE
-			},
-			produces = {
-					MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_YAML_VALUE
-			}
-	)
 	@Operation(
 			summary = "Create a person",
 			description = "Create a person",
@@ -121,23 +80,8 @@ public class PersonController {
 					@ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
 			}
 	)
-	public PersonDTO create(@RequestBody PersonDTO person) {
-		return service.create(person);
-	}
+	PersonDTO create(@RequestBody PersonDTO person);
 
-	@PutMapping(
-			value = "/{id}",
-			consumes = {
-					MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_YAML_VALUE
-			},
-			produces = {
-					MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_YAML_VALUE
-			}
-	)
 	@Operation(
 			summary = "Update a person",
 			description = "Update a specific person by your id",
@@ -157,13 +101,8 @@ public class PersonController {
 					@ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
 			}
 	)
-	public PersonDTO update(@PathVariable long id, @RequestBody PersonDTO person) {
-		return service.update(id, person);
-	}
+	PersonDTO update(@PathVariable long id, @RequestBody PersonDTO person);
 
-	@DeleteMapping(
-			value = "/{id}"
-	)
 	@Operation(
 			summary = "Delete a person",
 			description = "Delete a specific person by your id",
@@ -183,9 +122,5 @@ public class PersonController {
 					@ApiResponse(description = "Internal server error", responseCode = "500", content = @Content)
 			}
 	)
-	public ResponseEntity<Void> delete(@PathVariable long id) {
-		service.delete(id);
-
-		return ResponseEntity.noContent().build();
-	}
+	ResponseEntity<Void> delete(@PathVariable long id);
 }

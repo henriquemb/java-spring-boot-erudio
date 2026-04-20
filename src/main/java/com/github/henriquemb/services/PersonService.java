@@ -1,6 +1,6 @@
 package com.github.henriquemb.services;
 
-import com.github.henriquemb.controller.PersonController;
+import com.github.henriquemb.controllers.PersonController;
 import com.github.henriquemb.data.dto.PersonDTO;
 import com.github.henriquemb.exception.RequiredObjectIsNullException;
 import com.github.henriquemb.exception.ResourceNotFoundException;

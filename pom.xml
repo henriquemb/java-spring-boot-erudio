@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>25</java.version>
 		<dozer.version>7.0.0</dozer.version>
+		<openapi.version>3.0.2</openapi.version>
 	</properties>
 
 	<dependencies>
@@ -73,8 +74,9 @@
 			<artifactId>spring-boot-starter-flyway</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-mysql</artifactId>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${openapi.version}</version>
 		</dependency>
 	</dependencies>
 

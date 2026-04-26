@@ -18,7 +18,7 @@ logging:
 springdoc:
   paths-to-match: /api/v1/**
   api-docs:
-    enabled: false
+    enabled: true
   swagger-ui:
-    enabled: false
+    enabled: true
     use-root-path: true

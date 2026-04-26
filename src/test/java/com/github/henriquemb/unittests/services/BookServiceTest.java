@@ -1,11 +1,12 @@
-package com.github.henriquemb.services;
+package com.github.henriquemb.unittests.services;
 
 import com.github.henriquemb.data.dto.BookDTO;
 import com.github.henriquemb.exception.RequiredObjectIsNullException;
 import com.github.henriquemb.mapper.ObjectMapper;
 import com.github.henriquemb.model.Book;
 import com.github.henriquemb.repository.BookRepository;
-import com.github.henriquemb.unitetests.mapper.mocks.MockBook;
+import com.github.henriquemb.services.BookService;
+import com.github.henriquemb.unittests.mapper.mocks.MockBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,11 +1,12 @@
-package com.github.henriquemb.services;
+package com.github.henriquemb.unittests.services;
 
 import com.github.henriquemb.data.dto.PersonDTO;
 import com.github.henriquemb.exception.RequiredObjectIsNullException;
 import com.github.henriquemb.mapper.ObjectMapper;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
-import com.github.henriquemb.unitetests.mapper.mocks.MockPerson;
+import com.github.henriquemb.services.PersonService;
+import com.github.henriquemb.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

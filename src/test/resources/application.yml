@@ -1,14 +1,10 @@
 server:
-  port: 8080
+  port: 8888
 spring:
   application:
     name: java-spring-boot-erudio
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    #Por ser ambiente de estudo não irei usar variável de ambiente :D
-    url: jdbc:mariadb://localhost:3306/spring_boot_erudio?useTimezone=true&serverTimezone=UTC
-    username: root
-    password: root
   jpa:
     hibernate:
       ddl-auto: none
@@ -22,7 +18,7 @@ logging:
 springdoc:
   paths-to-match: /api/v1/**
   api-docs:
-    enabled: true
+    enabled: false
   swagger-ui:
-    enabled: true
+    enabled: false
     use-root-path: true

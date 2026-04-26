@@ -27,7 +27,7 @@ public class Book implements Serializable {
 	@Column(name = "launch_date", nullable = false)
 	private Date launchDate;
 
-	@Column(nullable = false, precision = 10, scale = 2)
+	@Column(nullable = false, precision = 65, scale = 2)
 	private BigDecimal price;
 
 	public Long getId() {

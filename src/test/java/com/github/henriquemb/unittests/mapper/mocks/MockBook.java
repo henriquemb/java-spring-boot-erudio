@@ -1,4 +1,4 @@
-package com.github.henriquemb.unitetests.mapper.mocks;
+package com.github.henriquemb.unittests.mapper.mocks;
 
 import com.github.henriquemb.data.dto.BookDTO;
 import com.github.henriquemb.model.Book;

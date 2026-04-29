@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/person")
 @Tag(name = "People", description = "Endpoints for Managing People")
+//@CrossOrigin(origins = { "http://localhost:8080" })
 public class PersonController implements PersonControllerDocs {
 	private final PersonService service;
 
@@ -41,6 +42,7 @@ public class PersonController implements PersonControllerDocs {
 					MediaType.APPLICATION_YAML_VALUE
 			}
 	)
+	@CrossOrigin(origins = { "http://localhost:8080" })
 	public PersonDTO findById(@PathVariable long id) {
 		return service.findById(id);
 	}
@@ -58,6 +60,7 @@ public class PersonController implements PersonControllerDocs {
 					MediaType.APPLICATION_YAML_VALUE
 			}
 	)
+	@CrossOrigin(origins = { "http://localhost:8080" })
 	public PersonDTO create(@RequestBody PersonDTO person) {
 		return service.create(person);
 	}

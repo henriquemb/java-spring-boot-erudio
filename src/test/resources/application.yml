@@ -1,5 +1,7 @@
 server:
   port: 8888
+cors:
+  originPatterns: http://localhost:8888
 spring:
   application:
     name: java-spring-boot-erudio

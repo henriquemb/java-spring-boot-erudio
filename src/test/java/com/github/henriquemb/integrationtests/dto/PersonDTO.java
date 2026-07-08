@@ -1,14 +1,13 @@
-package com.github.henriquemb.data.dto;
+package com.github.henriquemb.integrationtests.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 @JsonPropertyOrder({ "id", "firstName", "lastName", "address", "gender" })
-public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
+public class PersonDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -64,13 +63,12 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PersonDTO personDTO)) return false;
-        if (!super.equals(o)) return false;
 		return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getId(), getFirstName(), getLastName(), getAddress(), getGender());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.github.henriquemb.integrationtests.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 @JsonPropertyOrder({ "id", "firstName", "lastName", "address", "gender", "enabled" })
+@XmlRootElement
 public class PersonDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

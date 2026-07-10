@@ -7,7 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-@JsonPropertyOrder({ "id", "firstName", "lastName", "address", "gender" })
+@JsonPropertyOrder({ "id", "firstName", "lastName", "address", "gender", "enabled" })
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -17,6 +17,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
     private String lastName;
     private String address;
     private String gender;
+    private Boolean enabled;
 
     public PersonDTO() {
     }
@@ -61,16 +62,38 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
         this.gender = gender;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PersonDTO personDTO)) return false;
         if (!super.equals(o)) return false;
-		return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender());
+		return Objects.equals(getId(), personDTO.getId())
+                && Objects.equals(getFirstName(), personDTO.getFirstName())
+                && Objects.equals(getLastName(), personDTO.getLastName())
+                && Objects.equals(getAddress(), personDTO.getAddress())
+                && Objects.equals(getGender(), personDTO.getGender())
+                && Objects.equals(getEnabled(), personDTO.getEnabled()
+        );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getId(), getFirstName(), getLastName(), getAddress(), getGender());
+        return Objects.hash(
+                super.hashCode(),
+                getId(),
+                getFirstName(),
+                getLastName(),
+                getAddress(),
+                getGender(),
+                getEnabled()
+        );
     }
 
     @Override
@@ -81,6 +104,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", gender='" + gender + '\'' +
+                ", enabled=" + enabled + '\'' +
                 '}';
     }
 }

@@ -6,6 +6,7 @@ import com.github.henriquemb.exception.RequiredObjectIsNullException;
 import com.github.henriquemb.exception.ResourceNotFoundException;
 import com.github.henriquemb.model.Person;
 import com.github.henriquemb.repository.PersonRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -82,6 +83,18 @@ public class PersonService {
         return savedPersonDTO;
     }
 
+    @Transactional
+    public PersonDTO disable(long id) {
+        logger.info("Disabling person {}.", id);
+
+        if (!personRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Person with id " + id + " not found.");
+        }
+
+        personRepository.disable(id);
+        return findById(id);
+    }
+
     public void delete(long id) {
         logger.info("Deleting person {}.", id);
 
@@ -115,6 +128,12 @@ public class PersonService {
             WebMvcLinkBuilder.linkTo(
                     WebMvcLinkBuilder.methodOn(PersonController.class).update(id, personDTO)
             ).withRel("update").withType("PUT")
+        );
+
+        personDTO.add(
+            WebMvcLinkBuilder.linkTo(
+                    WebMvcLinkBuilder.methodOn(PersonController.class).disable(id)
+            ).withRel("disable").withType("PATCH")
         );
 
         personDTO.add(

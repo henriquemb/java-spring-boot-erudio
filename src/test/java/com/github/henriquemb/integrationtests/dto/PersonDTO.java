@@ -72,27 +72,12 @@ public class PersonDTO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PersonDTO personDTO)) return false;
-        if (!super.equals(o)) return false;
-		return Objects.equals(getId(), personDTO.getId())
-                && Objects.equals(getFirstName(), personDTO.getFirstName())
-                && Objects.equals(getLastName(), personDTO.getLastName())
-                && Objects.equals(getAddress(), personDTO.getAddress())
-                && Objects.equals(getGender(), personDTO.getGender())
-                && Objects.equals(getEnabled(), personDTO.getEnabled()
-        );
+		return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender()) && Objects.equals(getEnabled(), personDTO.getEnabled());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                super.hashCode(),
-                getId(),
-                getFirstName(),
-                getLastName(),
-                getAddress(),
-                getGender(),
-                getEnabled()
-        );
+        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender(), getEnabled());
     }
 
     @Override

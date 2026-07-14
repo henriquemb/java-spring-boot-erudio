@@ -4,11 +4,12 @@ import com.github.henriquemb.controllers.docs.PersonControllerDocs;
 import com.github.henriquemb.data.dto.PersonDTO;
 import com.github.henriquemb.services.PersonService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/person")
@@ -29,8 +30,13 @@ public class PersonController implements PersonControllerDocs {
 					MediaType.APPLICATION_YAML_VALUE
 			}
 	)
-	public List<PersonDTO> findAll() {
-		return service.findAll();
+	public ResponseEntity<Page<PersonDTO>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "size", defaultValue = "12") Integer size
+	) {
+		Pageable pageable = PageRequest.of(page, size);
+
+		return ResponseEntity.ok(service.findAll(pageable));
 	}
 
 	@Override

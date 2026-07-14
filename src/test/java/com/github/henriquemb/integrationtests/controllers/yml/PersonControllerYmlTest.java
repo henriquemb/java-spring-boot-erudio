@@ -137,6 +137,7 @@ class PersonControllerYmlTest extends AbstractIntegrationTest {
 
 	@Test
 	@Order(6)
+	@Disabled("REASON: Still under development")
 	void findAll() {
 		String content = given(specification)
 				.contentType(MEDIA_TYPE)

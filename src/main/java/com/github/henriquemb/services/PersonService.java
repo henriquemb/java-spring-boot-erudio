@@ -9,6 +9,8 @@ import com.github.henriquemb.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +29,15 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public List<PersonDTO> findAll() {
+    public Page<PersonDTO> findAll(Pageable pageable) {
         logger.info("Finding all persons.");
 
-        List<Person> persons = personRepository.findAll();
-        return parseListObjects(persons, PersonDTO.class)
-                .stream()
-                .peek(personDTO -> addHateoasLinks(personDTO, personDTO.getId()))
-                .toList();
+        return personRepository.findAll(pageable)
+                .map(person -> {
+                    PersonDTO personDTO = parseObject(person, PersonDTO.class);
+                    addHateoasLinks(personDTO, person.getId());
+                    return personDTO;
+                });
     }
 
     public PersonDTO findById(long id) {
@@ -114,7 +117,7 @@ public class PersonService {
 
         personDTO.add(
             WebMvcLinkBuilder.linkTo(
-                    WebMvcLinkBuilder.methodOn(PersonController.class).findAll()
+                    WebMvcLinkBuilder.methodOn(PersonController.class).findAll(1, 12)
             ).withRel("findAll").withType("GET")
         );
 

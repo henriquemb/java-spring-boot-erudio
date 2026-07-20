@@ -117,7 +117,7 @@ public class PersonService {
 
         personDTO.add(
             WebMvcLinkBuilder.linkTo(
-                    WebMvcLinkBuilder.methodOn(PersonController.class).findAll(1, 12)
+                    WebMvcLinkBuilder.methodOn(PersonController.class).findAll(1, 12, "asc")
             ).withRel("findAll").withType("GET")
         );
 

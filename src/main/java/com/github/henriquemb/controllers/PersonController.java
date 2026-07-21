@@ -9,6 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,15 +37,27 @@ public class PersonController implements PersonControllerDocs {
 					MediaType.APPLICATION_YAML_VALUE
 			}
 	)
-	public ResponseEntity<Page<PersonDTO>> findAll(
+	public ResponseEntity<PagedModel<EntityModel<PersonDTO>>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "size", defaultValue = "12") Integer size,
-			@RequestParam(value = "direction", defaultValue = "asc") String direction
+			@RequestParam(value = "direction", defaultValue = "asc") String direction,
+			PagedResourcesAssembler<PersonDTO> assembler
 	) {
 		Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
 
-		return ResponseEntity.ok(service.findAll(pageable));
+		Page<PersonDTO> people = service.findAll(pageable);
+
+		Link link = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(PersonController.class).findAll(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        pageable.getSort().toString(),
+						assembler
+                )
+        ).withSelfRel();
+
+		return ResponseEntity.ok(assembler.toModel(people, link));
 	}
 
 	@Override

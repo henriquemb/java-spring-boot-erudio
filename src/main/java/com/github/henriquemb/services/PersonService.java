@@ -9,14 +9,13 @@ import com.github.henriquemb.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import static com.github.henriquemb.mapper.ObjectMapper.parseListObjects;
 import static com.github.henriquemb.mapper.ObjectMapper.parseObject;
 
 @Service
@@ -117,7 +116,7 @@ public class PersonService {
 
         personDTO.add(
             WebMvcLinkBuilder.linkTo(
-                    WebMvcLinkBuilder.methodOn(PersonController.class).findAll(1, 12, "asc")
+                    WebMvcLinkBuilder.methodOn(PersonController.class).findAll(1, 12, "asc", null)
             ).withRel("findAll").withType("GET")
         );
 

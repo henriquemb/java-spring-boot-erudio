@@ -9,10 +9,8 @@ import com.github.henriquemb.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +47,17 @@ public class PersonService {
         PersonDTO personDTO = parseObject(person, PersonDTO.class);
         addHateoasLinks(personDTO, id);
         return personDTO;
+    }
+
+    public Page<PersonDTO> findPeopleByName(String name, Pageable pageable) {
+        logger.info("Finding people with name {}.", name);
+
+        return personRepository.findPeopleByName(name, pageable)
+                .map(person -> {
+                    PersonDTO personDTO = parseObject(person, PersonDTO.class);
+                    addHateoasLinks(personDTO, person.getId());
+                    return personDTO;
+                });
     }
 
     public PersonDTO create(PersonDTO personDTO) {

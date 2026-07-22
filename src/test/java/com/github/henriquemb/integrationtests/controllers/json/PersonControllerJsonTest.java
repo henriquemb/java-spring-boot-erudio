@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.henriquemb.config.TestConfigs;
 import com.github.henriquemb.integrationtests.controllers.MockControllerPerson;
 import com.github.henriquemb.integrationtests.dto.PersonDTO;
+import com.github.henriquemb.integrationtests.dto.wrapper.json.PersonDTOJsonWrapper;
 import com.github.henriquemb.integrationtests.testcontainers.AbstractIntegrationTest;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -124,7 +125,6 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 
 	@Test
 	@Order(6)
-	@Disabled("REASON: Still under development")
 	void findAll() throws JsonProcessingException {
 		String content = given(specification)
 				.contentType(MEDIA_TYPE)
@@ -132,9 +132,11 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 				.then().statusCode(200)
 				.extract().body().asString();
 
-		List<PersonDTO> updatedPerson = objectMapper.readValue(content, objectMapper.getTypeFactory().constructCollectionType(List.class, PersonDTO.class));
+		//List<PersonDTO> updatedPerson = objectMapper.readValue(content, objectMapper.getTypeFactory().constructCollectionType(List.class, PersonDTO.class));
+		PersonDTOJsonWrapper wrapper = objectMapper.readValue(content, PersonDTOJsonWrapper.class);
+		List<PersonDTO> updatedPerson = wrapper.getEmbeddedDTO().getPeople();
 
 		assertNotNull(updatedPerson);
-		assertEquals(9, updatedPerson.size());
+		assertEquals(12, updatedPerson.size());
 	}
 }

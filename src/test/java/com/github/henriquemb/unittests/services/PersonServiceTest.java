@@ -15,6 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +70,7 @@ class PersonServiceTest {
         assertTrue(result.getLinks().stream()
                 .anyMatch(
                         link -> link.getRel().value().equals("findAll")
-                                && link.getHref().endsWith("/api/v1/person")
+                                && link.getHref().startsWith("/api/v1/person")
                                 && link.getType() != null
                                 && link.getType().equals("GET")
                 )
@@ -129,7 +133,7 @@ class PersonServiceTest {
         assertTrue(result.getLinks().stream()
                 .anyMatch(
                         link -> link.getRel().value().equals("findAll")
-                                && link.getHref().endsWith("/api/v1/person")
+                                && link.getHref().startsWith("/api/v1/person")
                                 && link.getType() != null
                                 && link.getType().equals("GET")
                 )
@@ -203,7 +207,7 @@ class PersonServiceTest {
         assertTrue(result.getLinks().stream()
                 .anyMatch(
                         link -> link.getRel().value().equals("findAll")
-                                && link.getHref().endsWith("/api/v1/person")
+                                && link.getHref().startsWith("/api/v1/person")
                                 && link.getType() != null
                                 && link.getType().equals("GET")
                 )
@@ -259,11 +263,11 @@ class PersonServiceTest {
     }
 
     @Test
-    @Disabled("REASON: Still under development")
     void findAll() {
         List<Person> people = mockPerson.mockEntityList();
-        when(personRepository.findAll()).thenReturn(people);
-        List<PersonDTO> personDTOS = new ArrayList<>();// personService.findAll();
+        when(personRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(people));
+        Pageable pageable = PageRequest.of(0, 14);
+        List<PersonDTO> personDTOS = personService.findAll(pageable).getContent();
 
         assertNotNull(personDTOS);
         assertEquals(14, personDTOS.size());
@@ -291,7 +295,7 @@ class PersonServiceTest {
         assertTrue(person.getLinks().stream()
                 .anyMatch(
                         link -> link.getRel().value().equals("findAll")
-                                && link.getHref().endsWith("/api/v1/person")
+                                && link.getHref().startsWith("/api/v1/person")
                                 && link.getType() != null
                                 && link.getType().equals("GET")
                 )
@@ -324,7 +328,7 @@ class PersonServiceTest {
                 )
         );
 
-        verify(personRepository, times(1)).findAll();
+        verify(personRepository, times(1)).findAll(any(Pageable.class));
         verifyNoMoreInteractions(personRepository);
     }
 }

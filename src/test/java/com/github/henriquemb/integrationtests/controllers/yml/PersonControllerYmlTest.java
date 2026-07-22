@@ -1,9 +1,9 @@
 package com.github.henriquemb.integrationtests.controllers.yml;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.henriquemb.config.TestConfigs;
 import com.github.henriquemb.integrationtests.controllers.MockControllerPerson;
 import com.github.henriquemb.integrationtests.dto.PersonDTO;
-import com.github.henriquemb.integrationtests.dto.wrapper.json.PersonDTOJsonWrapper;
 import com.github.henriquemb.integrationtests.dto.wrapper.yml.PersonDTOYmlWrapper;
 import com.github.henriquemb.integrationtests.testcontainers.AbstractIntegrationTest;
 import io.restassured.builder.RequestSpecBuilder;
@@ -153,6 +153,25 @@ class PersonControllerYmlTest extends AbstractIntegrationTest {
 
 		assertNotNull(updatedPerson);
 		assertEquals(12, updatedPerson.size());
+	}
+
+	@Test
+	@Order(7)
+	void findByName() throws JsonProcessingException {
+		String content = given(specification)
+				.contentType(MEDIA_TYPE)
+				.accept(MEDIA_TYPE)
+				.pathParam("name", "be")
+				.queryParams("page", 0, "size", 50, "direction", "asc")
+				.when().get("findPeopleByName/{name}")
+				.then().statusCode(200)
+				.extract().body().asString();
+
+		PersonDTOYmlWrapper wrapper = objectMapper.readValue(content, PersonDTOYmlWrapper.class);
+		List<PersonDTO> updatedPerson = wrapper.getContent();
+
+		assertNotNull(updatedPerson);
+		assertEquals(45, updatedPerson.size());
 	}
 
 	private String getYmlBody() {

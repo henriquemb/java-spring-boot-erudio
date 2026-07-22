@@ -139,4 +139,22 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(updatedPerson);
 		assertEquals(12, updatedPerson.size());
 	}
+
+	@Test
+	@Order(7)
+	void findByName() throws JsonProcessingException {
+		String content = given(specification)
+				.contentType(MEDIA_TYPE)
+				.pathParam("name", "be")
+				.queryParams("page", 0, "size", 50, "direction", "asc")
+				.when().get("findPeopleByName/{name}")
+				.then().statusCode(200)
+				.extract().body().asString();
+
+		PersonDTOJsonWrapper wrapper = objectMapper.readValue(content, PersonDTOJsonWrapper.class);
+		List<PersonDTO> updatedPerson = wrapper.getEmbeddedDTO().getPeople();
+
+		assertNotNull(updatedPerson);
+		assertEquals(45, updatedPerson.size());
+	}
 }
